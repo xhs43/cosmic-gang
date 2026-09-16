@@ -1,0 +1,62 @@
+<div class="summary-box"><div class="val">${threshold.toExponential(4)}</div><div class="lbl">حد الاكتشاف (Threshold)</div></div>
+                    <div class="summary-box"><div class="val">0</div><div class="lbl">أحداث مكتشفة</div></div>
+                </div>
+                <p class="empty-msg">لم يتم رصد أي انخفاض يحقق شرط σ = ${sigma} بعدد النقاط المطلوب. جرّب تقليل قيمة σ أو الحد الأدنى للنقاط.</p>`;
+            return;
+        }
+
+        const detailed = events.map(ev => {
+            let minFlux = Infinity, minIdx = ev.startIdx;
+            for (let k = ev.startIdx; k <= ev.endIdx; k++) {
+                if (currentFluxes[k] < minFlux) { minFlux = currentFluxes[k]; minIdx = k; }
+            }
+            const startTime = currentTimes[ev.startIdx];
+            const endTime = currentTimes[ev.endIdx];
+            const duration = endTime - startTime;
+            const depthPct = ((med - minFlux) / Math.abs(med)) * 100;
+            const snr = (med - minFlux) / std;
+            const points = ev.endIdx - ev.startIdx + 1;
+            const isStrong = snr >= 5;
+            return { startTime, endTime, duration, depthPct, snr, points, isStrong };
+        });
+
+        const strongCount = detailed.filter(d => d.isStrong).length;
+
+        let rowsHtml = detailed.map((d, idx) => `
+            <tr class="${d.isStrong ? 'strong-candidate' : 'weak-candidate'}">
+                <td>${idx + 1}</td>
+                <td>${d.startTime.toFixed(5)}</td>
+                <td>${d.endTime.toFixed(5)}</td>
+                <td>${d.duration.toFixed(5)}</td>
+                <td>${d.points}</td>
+                <td>${d.depthPct.toFixed(3)}%</td>
+                <td>${d.snr.toFixed(2)} σ</td>
+                <td><span class="badge ${d.isStrong ? 'strong' : 'weak'}">${d.isStrong ? 'مرشح قوي' : 'مرشح ضعيف'}</span></td>
+            </tr>
+        `).join('');
+
+        area.innerHTML = `
+            <div class="summary-grid">
+                <div class="summary-box"><div class="val">${events.length}</div><div class="lbl">أحداث انخفاض مكتشفة</div></div>
+                <div class="summary-box"><div class="val">${strongCount}</div><div class="lbl">مرشحات قوية (≥5σ)</div></div>
+                <div class="summary-box"><div class="val">${med.toExponential(3)}</div><div class="lbl">الوسيط (Baseline)</div></div>
+                <div class="summary-box"><div class="val">${threshold.toExponential(3)}</div><div class="lbl">حد الاكتشاف</div></div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th><th>بداية الحدث</th><th>نهاية الحدث</th><th>المدة</th>
+                        <th>عدد النقاط</th><th>العمق</th><th>قوة الإشارة</th><th>التصنيف</th>
+                    </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>`;
+    }
+
+    function clearResults() {
+        document.getElementById('resultsArea').innerHTML = '';
+    }
+</script>
+
+</body>
+</html>

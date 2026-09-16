@@ -1,0 +1,34 @@
+{
+  "period": null,
+  "t0": null,
+  "duration": null,
+  "duration_days": null,
+  "depth": null,
+  "snr": 0.0,
+  "transit_detected": false,
+  "clean_time": [
+    2461282.4529182496,
+    2461282.457082385,
+    2461282.4591475967,
+    2461282.465401282,
+    2461282.4716544696
+  ],
+  "clean_flux": [
+    1.0043421340131158,
+    0.9951389843701633,
+    0.988377611635727,
+    1.020671671198106,
+    0.991464604849423
+  ],
+  "standard_error_transit": null,
+  "baseline_median_flux": null,
+  "rp_rs": null,
+  "power": null,
+  "reason": "INSUFFICIENT_DATA",
+  "preprocessing_mask": {
+    "status": "UNAVAILABLE",
+    "candidate_points_before_clipping": null,
+    "candidate_points_removed": null,
+    "candidate_removal_fraction": null
+  }
+}

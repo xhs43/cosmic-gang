@@ -1,0 +1,54 @@
+========================================================================
+  EXOPLANET TRANSIT VETTER — MODEL EVALUATION REPORT
+========================================================================
+
+  Model : C:\Users\GIG\OneDrive\Desktop\hack1\xgb_transit_vetter.json
+  Eval set size : 800 samples  (Planet=200  False-Positive=600)
+
+────────────────────────────────────────────────────────────────────────
+  PER-CLASS METRICS
+────────────────────────────────────────────────────────────────────────
+
+  [FALSE POSITIVE]  (n=600)
+    Precision : 0.9967  ██████████████████████████████
+    Recall    : 1.0000  ██████████████████████████████
+    F1-Score  : 0.9983  ██████████████████████████████
+
+  [CONFIRMED PLANET]  (n=200)
+    Precision : 1.0000  ██████████████████████████████
+    Recall    : 0.9900  ██████████████████████████████
+    F1-Score  : 0.9950  ██████████████████████████████
+
+────────────────────────────────────────────────────────────────────────
+  OVERALL METRICS
+────────────────────────────────────────────────────────────────────────
+  Weighted F1           : 0.9975
+  Macro F1              : 0.9967
+  PR-AUC (planet class) : 0.9992
+  False Alarm Prob (FAP): 0.0000
+
+────────────────────────────────────────────────────────────────────────
+  CONFUSION MATRIX   (rows=True, cols=Predicted)
+────────────────────────────────────────────────────────────────────────
+                   Pred=FP   Pred=Planet
+  True=FP       :     600           0
+  True=Planet   :       2         198
+
+  Interpretation:
+    True Positives  (TP) : 198   ← real planets correctly confirmed
+    True Negatives  (TN) : 600   ← false-positives correctly rejected
+    False Positives (FP) : 0   ← false-positives mistaken for planets
+    False Negatives (FN) : 2   ← real planets missed
+
+────────────────────────────────────────────────────────────────────────
+  ASTROPHYSICAL SAFETY FLAGS  (triggered counts across eval set)
+────────────────────────────────────────────────────────────────────────
+    DURATION_RATIO_SUGGESTS_BINARY_OR_DRIFT       : 248
+    SECONDARY_ECLIPSE_SIGNATURE                   : 221
+    ODD_EVEN_DEPTH_MISMATCH                       : 192
+    TRANSIT_TOO_DEEP_FOR_TYPICAL_PLANET           : 192
+    LOW_TRANSIT_SNR                               : 140
+
+========================================================================
+  END OF REPORT
+========================================================================

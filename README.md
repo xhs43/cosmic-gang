@@ -1,4 +1,4 @@
-# 🪐 Exoplanet Transit Detection Pipeline
+# Exoplanet Transit Detection Pipeline
 ### Hack4Dev Iraq 2026 | Exoplanet Data Challenge
 ### **Track E (Discovery Tool) + Track F (AI Classification)**
 
@@ -9,22 +9,22 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
-1. [Team & Challenge](#-team--challenge)
-2. [Pipeline Overview](#-pipeline-overview)
-3. [Repository Structure](#-repository-structure)
-4. [Dataset & Observations](#-dataset--observations)
-5. [Quickstart Guide](#-quickstart-guide)
-6. [Pipeline Modules](#-pipeline-modules)
-7. [Performance Metrics](#-performance-metrics)
-8. [Interactive Application](#-interactive-application)
-9. [Jury Questions — Official Answers](#-jury-questions--official-answers)
-10. [Limitations & Future Work](#-limitations--future-work)
+1. [Team & Challenge](#team--challenge)
+2. [Pipeline Overview](#pipeline-overview)
+3. [Repository Structure](#repository-structure)
+4. [Dataset & Observations](#dataset--observations)
+5. [Quickstart Guide](#quickstart-guide)
+6. [Pipeline Modules](#pipeline-modules)
+7. [Performance Metrics](#performance-metrics)
+8. [Interactive Application](#interactive-application)
+9. [Jury Questions — Official Answers](#jury-questions--official-answers)
+10. [Limitations & Future Work](#limitations--future-work)
 
 ---
 
-## 🏆 Team & Challenge
+## Team & Challenge
 
 | Field | Details |
 |-------|---------|
@@ -37,76 +37,76 @@
 
 ---
 
-## 🔭 Pipeline Overview
+## Pipeline Overview
 
 ```
  FITS Science Frames (1,681 images)
-         │
+
          ▼
- ┌─────────────────────────────────┐
- │  run_fits_photometry.py         │
- │  • Master Dark Stacking         │
- │  • Dynamic FWHM Measurement     │
- │  • Aperture Photometry          │
- │  • Sky Background Annulus       │
- │  • Differential Normalization   │
- └──────────────┬──────────────────┘
-                │  qatar1_real_lightcurve.csv
+
+   run_fits_photometry.py
+   • Master Dark Stacking
+   • Dynamic FWHM Measurement
+   • Aperture Photometry
+   • Sky Background Annulus
+   • Differential Normalization
+
+                  qatar1_real_lightcurve.csv
                 ▼
- ┌─────────────────────────────────┐
- │  run_bls_extraction.py          │
- │  • 3.5σ Sigma Clipping          │
- │  • Box Least Squares (BLS)      │
- │  • 7-Feature Extraction         │
- └──────────────┬──────────────────┘
-                │  extracted_features.json
+
+   run_bls_extraction.py
+   • 3.5σ Sigma Clipping
+   • Box Least Squares (BLS)
+   • 7-Feature Extraction
+
+                  extracted_features.json
                 ▼
- ┌─────────────────────────────────┐
- │  xgb_validation_layer.py        │
- │  • XGBoost Classifier           │
- │  • Physical Safety Flags        │
- │  • False Positive Rejection     │
- └──────────────┬──────────────────┘
-                │
+
+   xgb_validation_layer.py
+   • XGBoost Classifier
+   • Physical Safety Flags
+   • False Positive Rejection
+
+
                 ▼
-       🪐 Planet Candidate  OR  ❌ False Positive
+        Planet Candidate  OR   False Positive
 ```
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 hack1/
-│
-├── app.py                          # Streamlit UI (Challenge + Simulator + Real Data)
-├── fits_to_lightcurve.py           # Core photometry pipeline (real FITS)
-├── run_fits_photometry.py          # Standalone photometry runner
-├── run_bls_extraction.py           # BLS + 7-feature extraction script
-├── transit_detection_pipeline.py   # BLS engine + detection logic
-├── exoplanet_simulator.py          # Synthetic light-curve generator (5 scenarios)
-├── xgb_validation_layer.py         # XGBoost vetter + safety layer
-├── xgb_transit_vetter.json         # Trained XGBoost model (saved artifact)
-├── evaluate_model_performance.py   # Benchmark evaluation script
-│
-├── observations/                   # FITS science frames
-│   ├── 2026-08-09/CoRoT-2/session_01/   (87 frames)
-│   ├── 2026-08-16/CoRoT-2/session_01/
-│   ├── 2026-08-23/CoRoT-2/session_01/
-│   └── ...
-│
-├── calibration/                    # Dark frames by date
-│   ├── 2026-08-09/   (2 dark frames)
-│   └── ...
-│
-└── processed_lightcurves/
-    ├── CoRoT-2_all.csv             # Combined 3-session light curve (167 points)
-    └── CoRoT-2_combined.csv        # Normalized combined curve
+
+ app.py                          # Streamlit UI (Challenge + Simulator + Real Data)
+ fits_to_lightcurve.py           # Core photometry pipeline (real FITS)
+ run_fits_photometry.py          # Standalone photometry runner
+ run_bls_extraction.py           # BLS + 7-feature extraction script
+ transit_detection_pipeline.py   # BLS engine + detection logic
+ exoplanet_simulator.py          # Synthetic light-curve generator (5 scenarios)
+ xgb_validation_layer.py         # XGBoost vetter + safety layer
+ xgb_transit_vetter.json         # Trained XGBoost model (saved artifact)
+ evaluate_model_performance.py   # Benchmark evaluation script
+
+ observations/                   # FITS science frames
+    2026-08-09/CoRoT-2/session_01/   (87 frames)
+    2026-08-16/CoRoT-2/session_01/
+    2026-08-23/CoRoT-2/session_01/
+    ...
+
+ calibration/                    # Dark frames by date
+    2026-08-09/   (2 dark frames)
+    ...
+
+ processed_lightcurves/
+     CoRoT-2_all.csv             # Combined 3-session light curve (167 points)
+     CoRoT-2_combined.csv        # Normalized combined curve
 ```
 
 ---
 
-## 📡 Dataset & Observations
+## Dataset & Observations
 
 | Parameter | Value |
 |-----------|-------|
@@ -130,7 +130,7 @@ hack1/
 
 ---
 
-## ⚡ Quickstart Guide
+## Quickstart Guide
 
 ### Prerequisites
 
@@ -175,11 +175,11 @@ python run_fits_photometry.py
 
 ---
 
-## 🔧 Pipeline Modules
+## Pipeline Modules
 
 ### Module 1 — `run_fits_photometry.py` (Photometric Extraction)
 
-**Reads:** FITS science frames + dark calibration frames  
+**Reads:** FITS science frames + dark calibration frames
 **Outputs:** `qatar1_real_lightcurve.csv`
 
 | Step | Method | Detail |
@@ -195,7 +195,7 @@ python run_fits_photometry.py
 
 ### Module 2 — `run_bls_extraction.py` (Periodicity Engine)
 
-**Reads:** `qatar1_real_lightcurve.csv`  
+**Reads:** `qatar1_real_lightcurve.csv`
 **Outputs:** `extracted_features.json`
 
 | Feature | Formula | Physical Meaning |
@@ -227,8 +227,8 @@ python run_fits_photometry.py
 
 ### Module 3 — `xgb_validation_layer.py` (AI Vetter + Safety Layer)
 
-**Model:** XGBoost binary classifier (`xgb_transit_vetter.json`)  
-**Input:** 7-feature vector  
+**Model:** XGBoost binary classifier (`xgb_transit_vetter.json`)
+**Input:** 7-feature vector
 **Output:** Planet probability (%) + verdict + safety flags
 
 #### XGBoost Model Specification
@@ -264,17 +264,17 @@ Generates physically realistic light curves for 5 scenarios:
 
 | Scenario | Class | Key Distinguisher |
 |----------|-------|-------------------|
-| `planet` | ✅ Planet | Small depth (0.5–5%), low odd-even diff |
-| `eclipsing_binary` | ❌ FP | Large depth (>10%), secondary eclipse |
-| `grazing_binary` | ❌ FP | Medium depth, V-shaped ingress |
-| `stellar_flare` | ❌ FP | Flux increase (positive), asymmetric |
-| `instrumental_noise` | ❌ FP | No coherent period |
+| `planet` |  Planet | Small depth (0.5–5%), low odd-even diff |
+| `eclipsing_binary` |  FP | Large depth (>10%), secondary eclipse |
+| `grazing_binary` |  FP | Medium depth, V-shaped ingress |
+| `stellar_flare` |  FP | Flux increase (positive), asymmetric |
+| `instrumental_noise` |  FP | No coherent period |
 
 Includes: red noise (Ornstein-Uhlenbeck), heteroscedastic white noise, outliers, and observational gaps.
 
 ---
 
-## 📊 Performance Metrics
+## Performance Metrics
 
 ### Official Benchmark Results (`evaluate_model_performance.py`)
 
@@ -302,9 +302,9 @@ True=False Pos  :        598                  2
 True=Planet     :          0                200
 ```
 
-> **Why not Accuracy?**  
-> The dataset is class-imbalanced (4:1 ratio of false positives to planets).  
-> Accuracy would be misleadingly high even for a trivial all-negative classifier.  
+> **Why not Accuracy?**
+> The dataset is class-imbalanced (4:1 ratio of false positives to planets).
+> Accuracy would be misleadingly high even for a trivial all-negative classifier.
 > We report **Weighted F1**, **PR-AUC**, and **FAP** — the metrics that matter for rare signal detection.
 
 ### Real Data Results (CoRoT-2 Combined — 3 Sessions)
@@ -322,33 +322,33 @@ True=Planet     :          0                200
 
 ---
 
-## 🖥️ Interactive Application
+## ️ Interactive Application
 
 The Streamlit app (`app.py`) offers three integrated modes:
 
-### Tab 1 — 🎯 Challenge Mode (Educational Game)
+### Tab 1 —  Challenge Mode (Educational Game)
 - Generates a random synthetic light curve (one of 5 scenarios, hidden)
 - Displays raw time series + partial BLS stats
 - User guesses: **"Is this an exoplanet transit?"**
 - Reveals: true scenario, BLS details, XGBoost confidence, 7-feature breakdown, phase-folded curve
 - Tracks user score across challenges
 
-### Tab 2 — 🔬 Simulator
+### Tab 2 —  Simulator
 Two modes selectable from sidebar:
 
-**🔬 Synthetic Simulation:**  
-Full manual control over all physical parameters (period, depth, noise, gaps, outliers, scenario).  
+** Synthetic Simulation:**
+Full manual control over all physical parameters (period, depth, noise, gaps, outliers, scenario).
 Runs the complete BLS → XGBoost pipeline and shows all intermediate results.
 
-**📂 Real Observed FITS Light Curve:**  
-Loads `qatar1_real_lightcurve.csv` (or any user-specified CSV path).  
-Runs BLS + XGBoost on real photometric data.  
-Shows phase-folded curve if transit is detected.  
+** Real Observed FITS Light Curve:**
+Loads `qatar1_real_lightcurve.csv` (or any user-specified CSV path).
+Runs BLS + XGBoost on real photometric data.
+Shows phase-folded curve if transit is detected.
 Graceful `st.info()` warning if file is absent — server never crashes.
 
 ---
 
-## ❓ Jury Questions — Official Answers
+## Jury Questions — Official Answers
 
 > *Answers to the 10 mandatory evaluation questions from Section 17 of the challenge document.*
 
@@ -362,11 +362,11 @@ We address the core bottleneck in ground-based exoplanet photometry: distinguish
 
 **Q2. Describe your end-to-end pipeline.**
 
-1. **Dark calibration** — median-stacked master dark subtracted from every science frame.  
-2. **Aperture photometry** — dynamic FWHM-based aperture, local annular sky subtraction, differential normalization using two comparison stars.  
-3. **BLS transit search** — log-spaced period grid [0.5–20 days], sigma-clipped flux, best-period extraction.  
-4. **Feature engineering** — 7 astrophysical features computed from BLS output and flux statistics.  
-5. **XGBoost classification** — pre-trained binary classifier with physical safety flag override layer.  
+1. **Dark calibration** — median-stacked master dark subtracted from every science frame.
+2. **Aperture photometry** — dynamic FWHM-based aperture, local annular sky subtraction, differential normalization using two comparison stars.
+3. **BLS transit search** — log-spaced period grid [0.5–20 days], sigma-clipped flux, best-period extraction.
+4. **Feature engineering** — 7 astrophysical features computed from BLS output and flux statistics.
+5. **XGBoost classification** — pre-trained binary classifier with physical safety flag override layer.
 6. **Reporting** — structured JSON output + interactive Streamlit visualization.
 
 ---
@@ -423,13 +423,13 @@ The physical safety layer eliminates all remaining false alarms that the statist
 
 We are transparent about two known failure modes:
 
-1. **Grazing Eclipsing Binaries (SNR < 5):**  
+1. **Grazing Eclipsing Binaries (SNR < 5):**
    Grazing binaries produce shallow, V-shaped transits that are photometrically similar to small planets. When the secondary eclipse is undetected (below noise floor), the odd-even difference is near zero and the depth is planet-like. XGBoost correctly rejects ~70% of grazing binaries, but misclassifies ~30% as planet candidates. Seeds 200, 202, 210, 500 are known examples where the model returns a false PLANET verdict.
 
-2. **Low-SNR Real Data (SNR < 3.0):**  
+2. **Low-SNR Real Data (SNR < 3.0):**
    When the combined photometric noise from atmospheric scintillation, CCD read noise, and tracking jitter exceeds the transit depth, BLS cannot distinguish a real signal from noise. The 21-day CoRoT-2 dataset (SNR 7.15) was correctly rejected as a false positive, but a genuine planet with depth < 0.005 would be undetectable with our current 4-hour session lengths.
 
-3. **Window Function Aliases:**  
+3. **Window Function Aliases:**
    With only 3–4 sessions separated by 7-day gaps, the BLS period search aliases to multiples of the gap length (7, 14, 21 days). This was observed in the CoRoT-2 combined dataset (BLS detected 14.04 days — exactly 2× the session gap, not CoRoT-2's true 1.743-day period).
 
 ---
@@ -462,16 +462,16 @@ These conditions are applied as **hard overrides** unless the ML confidence exce
 
 | Priority | Improvement | Expected Impact |
 |----------|-------------|-----------------|
-| 🔴 High | Multi-season combination (>10 sessions) | Enable BLS to detect true period with ≥3 transits |
-| 🔴 High | Plate-solving / WCS calibration | Precise RA-Dec to pixel mapping, eliminate centroid guessing |
-| 🟡 Medium | LSTM/Transformer on raw flux | Capture time-domain morphology (flare shape, ingress curvature) |
-| 🟡 Medium | Centroid motion analysis | Detect blended eclipsing binaries via PSF shift during transit |
-| 🟢 Low | Gaia catalog cross-match | Automatically identify comparison stars by magnitude and color |
-| 🟢 Low | Flat-field correction | Reduce pixel-sensitivity gradients in wide-field images |
+|  High | Multi-season combination (>10 sessions) | Enable BLS to detect true period with ≥3 transits |
+|  High | Plate-solving / WCS calibration | Precise RA-Dec to pixel mapping, eliminate centroid guessing |
+|  Medium | LSTM/Transformer on raw flux | Capture time-domain morphology (flare shape, ingress curvature) |
+|  Medium | Centroid motion analysis | Detect blended eclipsing binaries via PSF shift during transit |
+|  Low | Gaia catalog cross-match | Automatically identify comparison stars by magnitude and color |
+|  Low | Flat-field correction | Reduce pixel-sensitivity gradients in wide-field images |
 
 ---
 
-## ⚠️ Limitations & Future Work
+## ️ Limitations & Future Work
 
 ### Current Limitations
 
@@ -490,7 +490,7 @@ These conditions are applied as **hard overrides** unless the ML confidence exce
 
 ---
 
-## 🛠️ Dependencies
+## ️ Dependencies
 
 ```
 astropy >= 5.0
@@ -511,10 +511,10 @@ pip install astropy photutils numpy pandas xgboost scikit-learn streamlit matplo
 
 ---
 
-## 📄 License
+## License
 
-This project was developed for Hack4Dev Iraq 2026 — Exoplanet Data Challenge.  
-All original code is released under the MIT License.  
+This project was developed for Hack4Dev Iraq 2026 — Exoplanet Data Challenge.
+All original code is released under the MIT License.
 Observation data belongs to the Cecilia Observatory dataset provided by the challenge organizers.
 
 ---
